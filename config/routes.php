@@ -54,6 +54,13 @@ return function (RouteBuilder $routes): void {
         $routes->resources('Posts');
     });
 
+    $routes->scope('/', function (RouteBuilder $builder): void {
+        $builder->connect('/posts', ['controller' => 'Posts', 'action' => 'index']);
+        $builder->connect('/posts/:id', ['controller' => 'Posts', 'action' => 'view'])
+            ->setPatterns(['id' => '\d+'])
+            ->setPass(['id']);
+    });
+
     // $routes->scope('/', function (RouteBuilder $builder): void {
     //     /*
     //      * Here, we are connecting '/' (base path) to a controller called 'Pages',
