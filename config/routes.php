@@ -26,10 +26,11 @@ use Cake\Routing\RouteBuilder;
 
 /*
  * This file is loaded in the context of the `Application` class.
-  * So you can use  `$this` to reference the application class instance
-  * if required.
+ * So you can use  `$this` to reference the application class instance
+ * if required.
  */
-return function (RouteBuilder $routes): void {
+return function (RouteBuilder $routes) : void
+{
     /*
      * The default class to use for all routes
      *
@@ -49,16 +50,23 @@ return function (RouteBuilder $routes): void {
      */
     $routes->setRouteClass(DashedRoute::class);
 
-    $routes->prefix('Api', function (RouteBuilder $routes): void {
-        $routes->setExtensions(['json']);
-        $routes->resources('Posts');
+    $routes->prefix('Api', function (RouteBuilder $routes) : void
+    {
+        $routes->scope('/', function (RouteBuilder $routes) : void
+        {
+            $routes->setExtensions(['json']);
+            $routes->resources('Posts');
+        });
     });
 
-    $routes->scope('/', function (RouteBuilder $builder): void {
+
+    $routes->scope('/', function (RouteBuilder $builder) : void
+    {
         $builder->connect('/posts', ['controller' => 'Posts', 'action' => 'index']);
         $builder->connect('/posts/:id', ['controller' => 'Posts', 'action' => 'view'])
             ->setPatterns(['id' => '\d+'])
             ->setPass(['id']);
+        $builder->connect('/posts/add', ['controller' => 'Posts', 'action' => 'add']);
     });
 
     // $routes->scope('/', function (RouteBuilder $builder): void {

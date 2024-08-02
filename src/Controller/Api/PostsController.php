@@ -39,6 +39,11 @@ class PostsController extends AppController
 
         if ($isRequestMethodPost) {
             $post = $this->Posts->patchEntity($post, $this->request->getData());
+            $post->slug = strtolower(str_replace(' ', '-', $this->request->getData('title')));
+
+            // Mock data
+            $post->category_id = 1;
+            $post->tags = '{"php", "cakephp", "programming", "web development"}';
 
             if ($this->Posts->save($post)) {
                 $this->set('post', $post);
